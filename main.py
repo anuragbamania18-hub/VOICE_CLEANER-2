@@ -76,21 +76,19 @@ def style_app():
 
 # --- UPDATED PROCESSING LOGIC ---
 def process_audio(input_audio, sensitivity):
-    # Load audio and compute STFT
     y, sr = librosa.load(input_audio, sr=None)
     stft = librosa.stft(y)
     magnitude, phase = librosa.magphase(stft)
 
-    # Calculate noise profile from the first 15 frames [cite: 13, 49]
+    # Calculate noise profile from the first 15 frames [cite: 13, 47]
     noise_floor = np.mean(magnitude[:, :15], axis=1, keepdims=True)
     
-    # Apply spectral subtraction with dynamic sensitivity [cite: 13, 54, 59]
+    # Dynamic subtraction using your new capped limit [cite: 57, 90]
     clean_mag = np.maximum(magnitude - (noise_floor * sensitivity), 0)
     
-    # Apply Wiener filter to smooth out "musical noise" artifacts [cite: 24, 43, 58]
+    # Wiener smoothing helps keep the 'shredded' artifacts at bay [cite: 56, 78]
     clean_mag = scipy.signal.wiener(clean_mag)
 
-    # Reconstruct audio
     y_clean = librosa.istft(clean_mag * phase)
 
     buffer = io.BytesIO()
@@ -103,14 +101,14 @@ st.set_page_config(page_title="NOICE", page_icon="✨", layout="centered")
 style_app()
 
 # Sidebar for Pro Controls [cite: 34, 59]
-st.sidebar.header("🎛️ Algorithm Settings")
+st.sidebar.header(" Algorithm Setting ")
 reduction_strength = st.sidebar.slider(
     "Reduction Strength", 
     min_value=1.0, 
-    max_value=5.0, 
+    max_value=3.0,  # Capped at 3.0 to prevent "shredding" 
     value=1.5, 
     step=0.1,
-    help="Higher values remove more noise but may distort the voice."
+    help="Higher values (up to 3.0) remove more noise but may distort the voice."
 )
 
 st.markdown('<h1 class="main-header"> NOISE REDUCE </h1>', unsafe_allow_html=True)
