@@ -158,5 +158,5 @@ if uploaded_file is not None:
             )
 
 st.markdown("---")
-st.caption("Tip: For best results, ensure the first 0.5s contains only background noise.")
+
 
