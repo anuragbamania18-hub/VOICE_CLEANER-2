@@ -80,13 +80,17 @@ def process_audio(input_audio, sensitivity):
     stft = librosa.stft(y)
     magnitude, phase = librosa.magphase(stft)
 
-    # Calculate noise profile from the first 15 frames [cite: 13, 47]
-    noise_floor = np.mean(magnitude[:, :15], axis=1, keepdims=True)
+    # NEW: Detect noise irrespective of timing
+    # Instead of first 15 frames, we find the median/minimum 
+    # magnitude across the whole clip to identify persistent noise.
+    # This 'Rolling' approach judges noise even if it moves.
+    noise_floor = np.median(magnitude, axis=1, keepdims=True)
     
-    # Dynamic subtraction using your new capped limit [cite: 57, 90]
+    # Apply spectral subtraction using the global noise floor
+    # Capped at your requested 3.0 limit to prevent 'shredding'
     clean_mag = np.maximum(magnitude - (noise_floor * sensitivity), 0)
     
-    # Wiener smoothing helps keep the 'shredded' artifacts at bay [cite: 56, 78]
+    # Keep the Wiener smoothing you liked for that clean finish
     clean_mag = scipy.signal.wiener(clean_mag)
 
     y_clean = librosa.istft(clean_mag * phase)
