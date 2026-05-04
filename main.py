@@ -125,7 +125,6 @@ st.markdown(
     '</h1>', 
     unsafe_allow_html=True
 )
-)
 st.markdown('<p class="sub-text">Professional Grade Fourier-Transform Noise Reduction</p>', unsafe_allow_html=True)
 
 with st.container():
