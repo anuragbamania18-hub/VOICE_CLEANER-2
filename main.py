@@ -24,13 +24,14 @@ def style_app():
         }
         
         # Inside style_app()
-        .main-header {
+       .main-header {
             font-size: 2.5rem;
             font-weight: 800;
             text-align: center;
             margin-bottom: 0.5rem;
-    
-            text-shadow: 0px 4px 15px rgba(255, 215, 0, 0.3); 
+            /* A subtle gold glow that doesn't overpower the white text */
+            text-shadow: 0px 4px 15px rgba(255, 215, 0, 0.3);
+            font-family: 'Inter', sans-serif;
         }
 
         .sub-text {
@@ -116,13 +117,14 @@ reduction_strength = st.sidebar.slider(
     help="Higher values (up to 3.0) remove more noise but may distort the voice."
 )
 
-# Locate this line and replace it:
 st.markdown(
     '<h1 class="main-header">'
     '<span style="color: #FFD700;">NOI</span>'
-    '<span style="color: #DAA520;">CE</span>'
+    '<span style="color: #FFFFFF;">SE REDU</span>'
+    '<span style="color: #FFD700;">CE</span>'
     '</h1>', 
     unsafe_allow_html=True
+)
 )
 st.markdown('<p class="sub-text">Professional Grade Fourier-Transform Noise Reduction</p>', unsafe_allow_html=True)
 
