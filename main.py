@@ -25,12 +25,15 @@ def style_app():
         
         # Inside style_app()
        .main-header {
-            font-size: 2.8rem; /* Slightly larger to look like the image */
+            font-size: 2.8rem;
             font-weight: 800;
-            text-align: center; /* This is the key for centering */
+            text-align: center !important; /* Force centering */
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
             margin-bottom: 0.5rem;
             text-shadow: 0px 4px 15px rgba(255, 215, 0, 0.3);
-            width: 100%;
+            display: block; /* Ensures it acts as a full-width container */
         }
         .sub-text {
             text-align: center;
@@ -116,11 +119,13 @@ reduction_strength = st.sidebar.slider(
 )
 
 st.markdown(
-    '<h1 class="main-header">'
-    '<span style="color: #FFD700;">NOI</span>'
-    '<span style="color: #FFFFFF;">SE&nbsp;REDU</span>'
-    '<span style="color: #FFD700;">CE</span>'
-    '</h1>', 
+    '''
+    <div style="text-align: center; width: 100%;">
+        <h1 class="main-header">
+            <span style="color: #FFD700;">NOI</span><span style="color: #FFFFFF;">SE REDU</span><span style="color: #FFD700;">CE</span>
+        </h1>
+    </div>
+    ''', 
     unsafe_allow_html=True
 )
 st.markdown('<p class="sub-text">Professional Grade Fourier-Transform Noise Reduction</p>', unsafe_allow_html=True)
